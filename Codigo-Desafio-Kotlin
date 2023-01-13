@@ -1,0 +1,74 @@
+enum class Nivel { BASICO, INTERMEDIO, DIFICIL }
+
+enum class Posicao { ESTUDANTE, PROFESSOR }
+
+class Usuario (val nome: String, val sobrenome: String, val email: String, val posicao: Posicao)
+
+data class ConteudoEducacional(val nome: String, val duracao: Int, val nivel: Nivel)
+
+data class Formacao(val nome: String, val conteudos: List<ConteudoEducacional>, val nivel: Nivel) {
+
+    val inscritos = mutableListOf<Usuario>()
+    
+    fun matricular(usuario: Usuario) {
+         inscritos.add(usuario)
+    }
+
+    fun mostrarUsuario(){
+        for(usuario in inscritos){
+            println("Nome: ${usuario.nome+" "+usuario.sobrenome} - Email: ${usuario.email} - (${usuario.posicao})")
+        }
+    }
+
+    fun imprimirConteudoEducacional(){
+        for(cont in conteudos){
+            println("${cont.nome} - ${cont.duracao} horas - (${cont.nivel})")
+        }
+    }
+}
+
+fun main() {
+    val modulo1 = ConteudoEducacional("Fundamentos da Plataforma Java", 10, Nivel.INTERMEDIO)
+    val modulo2 = ConteudoEducacional("Escopo e Estruturas de Controle em Java", 7, Nivel.INTERMEDIO)
+    val modulo3 = ConteudoEducacional("Programação Orientada a Objetos em Java", 10, Nivel.INTERMEDIO)
+    val modulo4 = ConteudoEducacional("Estruturas de Dados e API de Streams em Java", 15, Nivel.INTERMEDIO)
+    val modulo5 = ConteudoEducacional("Gerenciamento de Dependências e Build em Projetos Java", 5, Nivel.INTERMEDIO)
+    val modulo6 = ConteudoEducacional("Qualidade de Código e Boas Práticas com Java", 15, Nivel.INTERMEDIO)
+    val modulo7 = ConteudoEducacional("Conhecendo o Spring Framework", 14, Nivel.INTERMEDIO)
+     
+    val contentList = mutableListOf<ConteudoEducacional>()
+  	contentList.add(modulo1)
+  	contentList.add(modulo2)
+    contentList.add(modulo3)
+  	contentList.add(modulo4)
+    contentList.add(modulo5)
+    contentList.add(modulo6)
+    contentList.add(modulo7)
+   
+    val thiago = Usuario("Thiago","Silva", "thiagosilva@gmail.com", Posicao.ESTUDANTE)
+    val roberto = Usuario("Roberto","Oliveira", "robertooliveira@gmail.com", Posicao.ESTUDANTE)
+    val ana = Usuario("Ana","Domingues", "anadomingues@gmail.com", Posicao.ESTUDANTE)
+    val sophia = Usuario("Sophia","Rodrigues", "sophiarodrigues@gmail.com", Posicao.ESTUDANTE)
+    val camila = Usuario("Camila","Cavalcante", "camilacavalcante@gmail.com", Posicao.PROFESSOR)
+   
+    val FormacaoJava = Formacao("Formação Java Developer", contentList, Nivel.INTERMEDIO)
+     
+    FormacaoJava.matricular(thiago)
+    FormacaoJava.matricular(roberto)
+    FormacaoJava.matricular(ana)
+    FormacaoJava.matricular(sophia)
+    FormacaoJava.matricular(camila)
+   
+    println("------------------------------------")
+    println("${FormacaoJava.nome} - ${FormacaoJava.nivel}")
+    println("------------------------------------")
+   
+    println("")
+    println("Conteúdos do curso:")
+    println("")
+    println(FormacaoJava.imprimirConteudoEducacional())
+    println("")
+       
+    println("Usuarios cadastrados no curso:")
+    println(FormacaoJava.mostrarUsuario())
+}
